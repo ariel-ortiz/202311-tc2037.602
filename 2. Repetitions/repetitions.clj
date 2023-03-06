@@ -158,4 +158,13 @@
   (is (= '([1 January][2 February][3 March])
          (invert-pairs '([January 1][February 2][March 3])))))
 
+;; Problem 12
+(defn standard-deviation
+  [s]
+  (if (empty? s)
+    nil
+    (let [avg (average s)]
+      (sqrt (/ (reduce + (map #(sqr (- % avg)) s))
+               (count s))))))
+
 (run-tests)
