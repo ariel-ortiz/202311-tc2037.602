@@ -55,4 +55,43 @@
   (is (= '(1 2 3 4 5 6) (insertion-sort '(1 2 3 4 5 6))))
   (is (= '(1 5 5 5 5 5 5) (insertion-sort '(5 5 5 1 5 5 5)))))
 
+;; Problem 5
+(defn binary
+  [n]
+  (loop [n n
+         r ()]
+    (if (zero? n)
+      r
+      (recur (quot n 2)
+             (cons (rem n 2) r)))))
+
+(deftest test-binary
+  (is (= () (binary 0)))
+  (is (= '(1 1 1 1 0) (binary 30)))
+  (is (= '(1 0 1 1 0 0 0 0 0 1 0 0 0 0 1 1) (binary 45123))))
+
+;; Problem 6
+(defn prime-factors
+  [n]
+  (if (= n 1)
+    ()
+    (loop [n n
+           r ()
+           i 2]
+      (cond
+        (= n i) (reverse (cons i r))
+        (zero? (rem n i)) (recur (quot n i)
+                                 (cons i r)
+                                 i)
+        :else (recur n
+                     r
+                     (inc i))))))
+
+(deftest test-prime-factors
+  (is (= () (prime-factors 1)))
+  (is (= '(2 3) (prime-factors 6)))
+  (is (= '(2 2 2 2 2 3) (prime-factors 96)))
+  (is (= '(97) (prime-factors 97)))
+  (is (= '(2 3 3 37) (prime-factors 666))))
+
 (run-tests)
