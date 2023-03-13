@@ -127,5 +127,16 @@
            (1 2 3 4 5 6 7 8 9 10 x))
          (insert-everywhere 'x '(1 2 3 4 5 6 7 8 9 10)))))
 
+;; Problem 10
+(defn pack
+  [s]
+  (partition-by identity s))
+
+(deftest test-pack
+  (is (= () (pack ())))
+  (is (= '((a a a a) (b) (c c) (a a) (d) (e e e e))
+         (pack '(a a a a b c c a a d e e e e))))
+  (is (= '((1) (2) (3) (4) (5)) (pack '(1 2 3 4 5))))
+  (is (= '((9 9 9 9 9 9 9 9 9)) (pack '(9 9 9 9 9 9 9 9 9)))))
 
 (run-tests)
