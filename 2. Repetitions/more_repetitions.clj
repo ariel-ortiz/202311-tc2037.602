@@ -139,4 +139,20 @@
   (is (= '((1) (2) (3) (4) (5)) (pack '(1 2 3 4 5))))
   (is (= '((9 9 9 9 9 9 9 9 9)) (pack '(9 9 9 9 9 9 9 9 9)))))
 
+;; Problem 13
+(defn encode-modified
+  [s]
+  (map (fn [x]
+         (if (> (count x) 1)
+           [(count x) (first x)]
+           (first x)))
+       (pack s)))
+
+(deftest test-encode-modified
+  (is (= () (encode-modified ())))
+  (is (= '([4 a] b [2 c] [2 a] d [4 e])
+         (encode-modified '(a a a a b c c a a d e e e e))))
+  (is (= '(1 2 3 4 5) (encode-modified '(1 2 3 4 5))))
+  (is (= '([9 9]) (encode-modified '(9 9 9 9 9 9 9 9 9)))))
+
 (run-tests)
