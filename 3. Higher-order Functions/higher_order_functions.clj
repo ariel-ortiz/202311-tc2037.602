@@ -20,4 +20,21 @@
   (is (= '(1 0 4 25 100)
          ((argswap map) '(-1 0 2 5 10) #(* % %)))))
 
+;; Problem 2
+(defn there-exists-one
+  [pred? s]
+  (= 1 (count (filter pred? s))))
+
+(deftest test-there-exists-one
+  (is (not (there-exists-one pos?
+                             ())))
+  (is (there-exists-one pos?
+                        '(-1 -10 4 -5 -2 -1)))
+  (is (there-exists-one neg?
+                        '(-1)))
+  (is (not (there-exists-one symbol?
+                             '(4 8 15 16 23 42))))
+  (is (there-exists-one symbol?
+                        '(4 8 15 sixteen 23 42))))
+
 (run-tests)
