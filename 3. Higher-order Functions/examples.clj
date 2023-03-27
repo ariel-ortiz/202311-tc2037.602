@@ -25,3 +25,36 @@
 (def g (suma-acum 50))
 (g 1)
 (f 1)
+
+(defn compuesta
+  [f g]
+  (fn [x]
+    (f (g x))))
+
+(def f1 (fn [x] (* x x)))
+(def f2 (fn [x] (+ x 3)))
+(def f3 (compuesta f1 f2))
+(def f4 (compuesta f2 f1))
+(def f5 (compuesta f3 f4))
+(def f6 (compuesta f4 f3))
+(f1 1)
+(f2 1)
+(f3 1)
+(f4 1)
+(f5 1)
+(f6 1)
+
+(defn k
+  [a b c d e]
+  (+ a b c d e))
+
+(defn k-curry
+  [a]
+  (fn [b]
+    (fn [c]
+      (fn [d]
+        (fn [e]
+          (+ a b c d e))))))
+
+(k 1 2 3 4 5)
+(((((k-curry 1) 2) 3) 4) 5)
