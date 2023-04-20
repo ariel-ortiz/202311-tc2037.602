@@ -15,16 +15,13 @@
                         \b :q2}}))
 
 (defn accepts?
-  [dfa input]
-  (let [initial-state (.initial-state dfa)
-        accept-states (.accept-states dfa)
-        transitions (.transitions dfa)]
-    (loop [input (seq input)
-           current initial-state]
-      (if (empty? input)
-        (contains? accept-states current)
-        (recur (rest input)
-               ((transitions current) (first input)))))))
+  [{:keys [initial-state accept-states transitions]} input]
+  (loop [input (seq input)
+         current initial-state]
+    (if (empty? input)
+      (contains? accept-states current)
+      (recur (rest input)
+             ((transitions current) (first input))))))
 
 (deftest test-problem1
   (is (accepts? dfa-1 "ab"))
