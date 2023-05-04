@@ -42,4 +42,34 @@
   [file-name]
   (tokenize (slurp file-name)))
 
-(tokenize-file "entrada.txt")
+(defn separador
+  []
+  (println (apply str (repeat 56 \=))))
+
+(def termino {:flotante "Flotante"
+              :variable "Variable"
+              :comentario "Comentario"
+              :entero "Entero"
+              :asignacion "Asignación"
+              :suma "Suma"
+              :resta "Resta"
+              :multiplicacion "Multiplicación"
+              :division "División"
+              :potencia "Potencia"
+              :paren-izq "Paréntesis que abre"
+              :paren-der "Paréntesis que cierra"
+              :error "Token inválido"})
+
+(defn print-table
+  [file-name]
+  (separador)
+  (println (format "%-32sTipo" "Token"))
+  (separador)
+  (doseq [token (tokenize-file file-name)]
+    (println (format "%-32s%s"
+                     (token 1)
+                     (termino (token 0)))))
+  (separador))
+
+
+(spit "salida.txt" (with-out-str (print-table "entrada.txt")))
