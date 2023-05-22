@@ -72,4 +72,63 @@
   (separador))
 
 
-(spit "salida.txt" (with-out-str (print-table "entrada.txt")))
+;; (spit "salida.txt" (with-out-str (print-table "entrada.txt")))
+
+(def plantilla-hmtl
+  "
+<!DOCTYPE html>
+<html lang=\"es\">
+  <head>
+    <title>Análisis Léxico</title>
+    <style>
+      body {
+        background-color: beige;
+      }
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding-left: 10px;
+        padding-top: 5px;
+      }
+      .flotante {
+        color: blue;
+      }
+      .entero {
+        color: red;
+      }
+      .comentario {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Análisis Léxico</h1>
+    <table>
+      <tr>
+        <th>Token</th>
+        <th>Tipo</th>
+      </tr>
+      %s
+    </table>
+  </body>
+</html>
+  ")
+
+(defn htmlize
+  [lst]
+  (map (fn [[t v]]
+         (format "<tr><td><span class=\"%s\">%s</span></td><td>%s</td></tr>"
+                 (symbol t)
+                 v
+                 (termino t)))
+       lst))
+
+(defn txt->html
+  [in-name out-name]
+  (spit out-name
+        (format plantilla-hmtl
+                (clojure.string/join
+                  "\n"
+                  (htmlize (tokenize (slurp in-name)))))))
+
+(txt->html "entrada.txt" "entrada.html")
